@@ -29,8 +29,8 @@ try {
     error_log("DB Fetch Error: " . $e->getMessage());
 }
 
-$srvaddr = 'muh5-ws.ccgame.org/s1/';
-$srvport = '443';
+$srvaddr = ($config['server']['ws_host'] ?? 'muh5-ws.ccgame.org') . ($config['server']['ws_path'] ?? '/s1/');
+$srvport = (string) ($config['server']['ws_port'] ?? 443);
 $loginre = '/?p=login_bt';
 
 ?>
