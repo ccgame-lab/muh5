@@ -154,5 +154,194 @@ $cdnResBase = empty($cdnUrl) ? '/resource/' : $cdnUrl . '/resource/';
         });
         xhr.send(null);
     </script>
+
+    <!-- SDK Floating Icon -->
+    <style>
+        #muh5-sdk-icon {
+            position: fixed;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,#206bc4,#0ca678);
+            color: white;
+            text-align: center;
+            line-height: 48px;
+            font-weight: bold;
+            font-family: sans-serif;
+            cursor: move;
+            z-index: 9999;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            user-select: none;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            touch-action: none;
+        }
+        #muh5-sdk-panel {
+            position: fixed;
+            width: 150px;
+            background: rgba(15, 17, 23, 0.95);
+            border: 1px solid #333;
+            border-radius: 8px;
+            z-index: 9998;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: sans-serif;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        #muh5-sdk-panel a, #muh5-sdk-panel span {
+            display: block;
+            padding: 10px 15px;
+            color: #ddd;
+            text-decoration: none;
+            font-size: 14px;
+            border-bottom: 1px solid #222;
+        }
+        #muh5-sdk-panel a:last-child, #muh5-sdk-panel span:last-child {
+            border-bottom: none;
+        }
+        #muh5-sdk-panel a:hover {
+            background: #206bc4;
+            color: white;
+        }
+        #muh5-sdk-panel .disabled {
+            color: #666;
+            cursor: not-allowed;
+        }
+    </style>
+
+    <div id="muh5-sdk-icon">SDK</div>
+    <div id="muh5-sdk-panel">
+        <a href="/">Tài khoản</a>
+        <a href="/?p=servers">Máy chủ</a>
+        <span class="disabled" title="Chưa mở">Nạp</span>
+        <span class="disabled" title="Chưa mở">Hỗ trợ</span>
+    </div>
+
+    <script>
+        (function() {
+            var icon = document.getElementById('muh5-sdk-icon');
+            var panel = document.getElementById('muh5-sdk-panel');
+            
+            var pos = localStorage.getItem('muh5_sdk_position');
+            if (pos) {
+                try {
+                    pos = JSON.parse(pos);
+                    icon.style.left = pos.left + 'px';
+                    icon.style.top = pos.top + 'px';
+                    icon.style.right = 'auto';
+                    icon.style.transform = 'none';
+                } catch(e) {}
+            }
+
+            var isDragging = false;
+            var isClick = true;
+            var startX, startY, startLeft, startTop;
+
+            function onDown(e) {
+                var clientX = e.type.indexOf('touch') === 0 ? e.touches[0].clientX : e.clientX;
+                var clientY = e.type.indexOf('touch') === 0 ? e.touches[0].clientY : e.clientY;
+                startX = clientX;
+                startY = clientY;
+                var rect = icon.getBoundingClientRect();
+                startLeft = rect.left;
+                startTop = rect.top;
+                
+                icon.style.right = 'auto';
+                icon.style.transform = 'none';
+                icon.style.left = startLeft + 'px';
+                icon.style.top = startTop + 'px';
+
+                isDragging = true;
+                isClick = true;
+                
+                if (e.type === 'mousedown') {
+                    e.preventDefault();
+                }
+            }
+
+            function onMove(e) {
+                if (!isDragging) return;
+                var clientX = e.type.indexOf('touch') === 0 ? e.touches[0].clientX : e.clientX;
+                var clientY = e.type.indexOf('touch') === 0 ? e.touches[0].clientY : e.clientY;
+                
+                var dx = clientX - startX;
+                var dy = clientY - startY;
+
+                if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+                    isClick = false;
+                }
+
+                var newLeft = startLeft + dx;
+                var newTop = startTop + dy;
+
+                var maxLeft = window.innerWidth - icon.offsetWidth;
+                var maxTop = window.innerHeight - icon.offsetHeight;
+
+                newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                newTop = Math.max(0, Math.min(newTop, maxTop));
+
+                icon.style.left = newLeft + 'px';
+                icon.style.top = newTop + 'px';
+                
+                updatePanelPos();
+                
+                if (e.type === 'touchmove') {
+                    e.preventDefault();
+                }
+            }
+
+            function onUp(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                
+                if (isClick) {
+                    togglePanel();
+                } else {
+                    localStorage.setItem('muh5_sdk_position', JSON.stringify({
+                        left: parseInt(icon.style.left),
+                        top: parseInt(icon.style.top)
+                    }));
+                }
+            }
+
+            function togglePanel() {
+                if (panel.style.display === 'flex') {
+                    panel.style.display = 'none';
+                } else {
+                    panel.style.display = 'flex';
+                    updatePanelPos();
+                }
+            }
+
+            function updatePanelPos() {
+                if (panel.style.display !== 'flex') return;
+                
+                var rect = icon.getBoundingClientRect();
+                var pTop = rect.top;
+                var pLeft = rect.left - 160;
+                if (pLeft < 0) pLeft = rect.right + 10;
+                
+                var pHeight = panel.offsetHeight || 160;
+                var adjustedTop = pTop;
+                if (adjustedTop + pHeight > window.innerHeight) {
+                    adjustedTop = window.innerHeight - pHeight - 10;
+                }
+                if (adjustedTop < 0) adjustedTop = 10;
+                
+                panel.style.top = adjustedTop + 'px';
+                panel.style.left = pLeft + 'px';
+            }
+
+            icon.addEventListener('mousedown', onDown, {passive: false});
+            window.addEventListener('mousemove', onMove, {passive: false});
+            window.addEventListener('mouseup', onUp);
+
+            icon.addEventListener('touchstart', onDown, {passive: false});
+            window.addEventListener('touchmove', onMove, {passive: false});
+            window.addEventListener('touchend', onUp);
+        })();
+    </script>
 </body>
 </html>
