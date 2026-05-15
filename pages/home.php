@@ -37,39 +37,73 @@ render_header('MUH5 SDK');
 
                 <?php else: ?>
                     <!-- Chưa đăng nhập - Login form -->
-                    <h3 class="card-title text-center mb-1">Đăng nhập</h3>
-                    <p class="text-muted text-center small mb-3">Nhập tài khoản để tiếp tục</p>
+                    <div id="login-box">
+                        <h3 class="card-title text-center mb-1">Đăng nhập</h3>
+                        <p class="text-muted text-center small mb-3">Nhập tài khoản để tiếp tục</p>
 
-                    <?php if (!empty($_GET['error'])): ?>
-                        <div class="alert alert-danger alert-dismissible mb-3" role="alert">
-                            <div><?php echo e($_GET['error']); ?></div>
-                            <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
-                        </div>
-                    <?php endif; ?>
+                        <?php if (!empty($_GET['error'])): ?>
+                            <div class="alert alert-danger alert-dismissible mb-3" role="alert">
+                                <div><?php echo e($_GET['error']); ?></div>
+                                <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                            </div>
+                        <?php endif; ?>
 
-                    <form method="POST" action="/?p=login" autocomplete="on">
-                        <div class="mb-3">
-                            <label class="form-label" for="username">Tài khoản</label>
-                            <input type="text" id="username" name="username" class="form-control" placeholder="username" required autocomplete="username"/>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="password">Mật khẩu</label>
-                            <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required autocomplete="current-password"/>
-                        </div>
-                        <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-primary">Đăng nhập</button>
-                        </div>
-                    </form>
+                        <form method="POST" action="/?p=login" autocomplete="on">
+                            <div class="mb-3">
+                                <label class="form-label" for="username">Tài khoản</label>
+                                <input type="text" id="username" name="username" class="form-control" placeholder="username" required autocomplete="username"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="password">Mật khẩu</label>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required autocomplete="current-password"/>
+                            </div>
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                            </div>
+                        </form>
 
-                    <hr class="my-3"/>
+                        <hr class="my-3"/>
 
-                    <!-- Register: chưa mở -->
-                    <div class="text-center">
-                        <button class="btn btn-ghost-secondary btn-sm" disabled title="Đăng ký chưa mở">
-                            Đăng ký &mdash; Chưa mở
-                        </button>
+                        <div class="text-center">
+                            Chưa có tài khoản?
+                            <button type="button" class="btn btn-ghost-secondary btn-sm" onclick="document.getElementById('login-box').style.display='none'; document.getElementById('register-box').style.display='block';">
+                                Đăng ký ngay
+                            </button>
+                        </div>
                     </div>
 
+                    <!-- Register form -->
+                    <div id="register-box" style="display: none;">
+                        <h3 class="card-title text-center mb-1">Đăng ký</h3>
+                        <p class="text-muted text-center small mb-3">Tạo tài khoản mới</p>
+
+                        <form method="POST" action="/?p=register" autocomplete="off">
+                            <div class="mb-3">
+                                <label class="form-label" for="reg_username">Tài khoản</label>
+                                <input type="text" id="reg_username" name="username" class="form-control" placeholder="4-32 ký tự, a-z, 0-9" pattern="[a-zA-Z0-9_]{4,32}" required autocomplete="off"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="reg_password">Mật khẩu</label>
+                                <input type="password" id="reg_password" name="password" class="form-control" placeholder="Tối thiểu 6 ký tự" minlength="6" required autocomplete="off"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="reg_email">Email (tuỳ chọn)</label>
+                                <input type="email" id="reg_email" name="email" class="form-control" placeholder="email@example.com" autocomplete="off"/>
+                            </div>
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-success">Đăng ký</button>
+                            </div>
+                        </form>
+
+                        <hr class="my-3"/>
+
+                        <div class="text-center">
+                            Đã có tài khoản?
+                            <button type="button" class="btn btn-ghost-secondary btn-sm" onclick="document.getElementById('register-box').style.display='none'; document.getElementById('login-box').style.display='block';">
+                                Quay lại đăng nhập
+                            </button>
+                        </div>
+                    </div>
                 <?php endif; ?>
 
             </div>

@@ -14,6 +14,7 @@ $routes = [
     'home' => 'home.php',
     'play' => 'play.php',
     'servers' => 'servers.php',
+    'register' => 'register.php',
     'login' => 'login.php',
     'logout' => 'logout.php',
     'login_bt' => 'login_bt.php',
