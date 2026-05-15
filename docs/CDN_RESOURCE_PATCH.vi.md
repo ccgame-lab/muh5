@@ -1,0 +1,8 @@
+- resource/ đã chuyển sang R2/CDN.
+- Bucket: game-assets.
+- Prefix: h5/muh5/resource/.
+- CDN base URL: https://cdn.ccgame.org/h5/muh5.
+- manifest.json hiện dùng main.min.js?040.
+- main.min.js trên CDN đã patch RES.getResByUrl(..., "json") để dynamic login_bt endpoint trả JSON ổn định.
+- Không commit resource/ vào Git.
+- resource_r2_backup.zip là backup local ngoài repo, không commit.

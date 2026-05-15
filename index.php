@@ -16,6 +16,7 @@ $routes = [
     'login' => 'login.php',
     'logout' => 'logout.php',
     'login_bt' => 'login_bt.php',
+    'login_bt.json' => 'login_bt.php',
 ];
 
 $file = $routes[$page] ?? null;

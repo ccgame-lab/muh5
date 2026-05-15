@@ -31,7 +31,11 @@ try {
 
 $srvaddr = ($config['server']['ws_host'] ?? 'muh5-ws.ccgame.org') . ($config['server']['ws_path'] ?? '/s1/');
 $srvport = (string) ($config['server']['ws_port'] ?? 443);
-$loginre = '/?p=login_bt';
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+$loginre = $protocol . $_SERVER['HTTP_HOST'] . '/?p=login_bt';
+
+$cdnUrl = rtrim($config['assets']['base_url'] ?? '', '/');
+$cdnResBase = empty($cdnUrl) ? '/resource/' : $cdnUrl . '/resource/';
 
 ?>
 <!DOCTYPE html>
@@ -80,6 +84,7 @@ $loginre = '/?p=login_bt';
         window["svrip"] = <?php echo json_encode($srvaddr); ?>;
         window["port"] = <?php echo json_encode($srvport); ?>;
         window["showurl"] = true;
+        window["hosts"] = <?php echo json_encode($cdnResBase); ?>;
 
         // Legacy Fallback
         window.openPayModal = function(url) {
@@ -109,7 +114,7 @@ $loginre = '/?p=login_bt';
             // Path mapping logic
             var finalSrc = src;
             if (src.indexOf("../resource/") === 0) {
-                finalSrc = src.replace("../resource/", "/resource/");
+                finalSrc = src.replace("../resource/", window["hosts"]);
             } else if (src.indexOf("http") !== 0 && src.indexOf("/") !== 0) {
                 finalSrc = "/" + src;
             }
