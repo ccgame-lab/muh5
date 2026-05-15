@@ -17,6 +17,18 @@ return [
         'slug' => 'muh5',
         'server_id' => 1,
     ],
+
+    'assets' => [
+        'base_url' => '',
+    ],
+
+    'server' => [
+        'name' => 'S1',
+        'id' => 1,
+        'ws_host' => 'muh5-ws.ccgame.org',
+        'ws_path' => '/s1/',
+        'ws_port' => 443,
+    ],
     'db_s100' => [
         'host' => '127.0.0.1',
         'port' => 3306,

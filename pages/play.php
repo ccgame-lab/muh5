@@ -31,7 +31,7 @@ try {
 
 $srvaddr = 'muh5-ws.ccgame.org/s1/';
 $srvport = '443';
-$loginre = '/login_bt.json';
+$loginre = '/?p=login_bt';
 
 ?>
 <!DOCTYPE html>

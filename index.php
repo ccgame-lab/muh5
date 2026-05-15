@@ -15,6 +15,7 @@ $routes = [
     'play' => 'play.php',
     'login' => 'login.php',
     'logout' => 'logout.php',
+    'login_bt' => 'login_bt.php',
 ];
 
 $file = $routes[$page] ?? null;
