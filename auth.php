@@ -23,9 +23,9 @@ function require_login(): void
 function login_test_user(): void
 {
     $_SESSION['user'] = [
-        'id' => 1,
-        'username' => 'test',
-        'display_name' => 'Test User',
+        'id' => 196,
+        'username' => 'quocquoc',
+        'display_name' => 'Quoc Quoc',
     ];
 }
 

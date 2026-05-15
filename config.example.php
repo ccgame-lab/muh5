@@ -17,4 +17,20 @@ return [
         'slug' => 'muh5',
         'server_id' => 1,
     ],
+    'db_s100' => [
+        'host' => '127.0.0.1',
+        'port' => 3306,
+        'database' => 'actor_s100',
+        'username' => 'root_muh5',
+        'password' => '',
+    ],
+
+
+    'db_s1' => [
+        'host' => '127.0.0.1',
+        'port' => 3306,
+        'database' => 'actor_s1',
+        'username' => 'root_muh5',
+        'password' => '',
+    ],
 ];

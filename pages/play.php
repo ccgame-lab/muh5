@@ -9,7 +9,26 @@ $user = current_user();
 // Placeholders/Config for Launcher
 $uid = $user['username'];
 $sid = 1;
-$spverify = 'test_pass';
+
+$spverify = 'error';
+try {
+    $pdo = new PDO(
+        sprintf('mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4', $config['db_s1']['host'], $config['db_s1']['port'], $config['db_s1']['database']),
+        $config['db_s1']['username'],
+        $config['db_s1']['password'],
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+    );
+
+    $stmt = $pdo->prepare('SELECT passwd FROM globaluser WHERE account = ? LIMIT 1');
+    $stmt->execute([$uid]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($row) {
+        $spverify = $row['passwd'];
+    }
+} catch (PDOException $e) {
+    error_log("DB Fetch Error: " . $e->getMessage());
+}
+
 $srvaddr = 'muh5-ws.ccgame.org/s1/';
 $srvport = '443';
 $loginre = '/login_bt.json';
