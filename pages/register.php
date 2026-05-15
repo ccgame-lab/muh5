@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 global $config;
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirect_to('/');
 }
 
