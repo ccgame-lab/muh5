@@ -28,7 +28,7 @@ render_header('MUH5 SDK');
                         <div class="text-muted small"><?php echo e($user['username']); ?></div>
                     </div>
                     <div class="d-grid gap-2">
-                        <a href="/?p=play&sid=1" class="btn btn-primary">
+                        <a href="/?p=servers" class="btn btn-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon me-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                             Vào game
                         </a>

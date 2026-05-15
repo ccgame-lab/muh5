@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'display_name' => $row['account'],
         ];
 
-        redirect_to('/?p=play&sid=1');
+        redirect_to('/?p=servers');
 
     } catch (PDOException $e) {
         error_log('Login DB error: ' . $e->getMessage());
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // GET: already logged in?
 if (is_logged_in()) {
-    redirect_to('/?p=play&sid=1');
+    redirect_to('/?p=servers');
 }
 
 // No form at /?p=login — redirect to home which has the form

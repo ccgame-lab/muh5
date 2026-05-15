@@ -13,6 +13,7 @@ $page = $_GET['p'] ?? 'home';
 $routes = [
     'home' => 'home.php',
     'play' => 'play.php',
+    'servers' => 'servers.php',
     'login' => 'login.php',
     'logout' => 'logout.php',
     'login_bt' => 'login_bt.php',
