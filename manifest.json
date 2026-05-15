@@ -1,13 +1,13 @@
 {
 	"initial": [
-		"js/egret.min.js",
-		"js/egret.web.min.js",
-		"js/eui.min.js",
-		"js/res.min.js",
-		"js/tween.min.js",
-		"js/game.min.js",
-		"js/socket.min.js",
-		"js/promise.min.js"
+		"h5/egret.min.js",
+		"h5/egret.web.min.js",
+		"h5/eui.min.js",
+		"h5/res.min.js",
+		"h5/tween.min.js",
+		"h5/game.min.js",
+		"h5/socket.min.js",
+		"h5/promise.min.js"
 	],
 	"game": [
 		"../resource/main.min.js?040"
