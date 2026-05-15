@@ -45,4 +45,13 @@ return [
         'username' => 'root_muh5',
         'password' => '',
     ],
+
+    'sdk_db' => [
+        'host' => '127.0.0.1',
+        'port' => 3306,
+        'database' => 'muh5_sdk',
+        'username' => 'root',
+        'password' => 'CHANGE_ME',
+        'charset' => 'utf8mb4',
+    ],
 ];
