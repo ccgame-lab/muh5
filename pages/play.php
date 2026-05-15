@@ -215,7 +215,7 @@ $cdnResBase = empty($cdnUrl) ? '/resource/' : $cdnUrl . '/resource/';
     <div id="muh5-sdk-panel">
         <a href="/">Tài khoản</a>
         <a href="/?p=servers">Máy chủ</a>
-        <a href="#" onclick="showPayModal(); return false;">Nạp</a>
+        <a href="#" onclick="showPayModal(); return false;">Tiếp tế</a>
         <span class="disabled" title="Chưa mở">Hỗ trợ</span>
         <span class="disabled" title="Chưa mở">GM</span>
     </div>
@@ -223,7 +223,7 @@ $cdnResBase = empty($cdnUrl) ? '/resource/' : $cdnUrl . '/resource/';
     <!-- Payment Modal Stub -->
     <div id="pay-modal-overlay" onclick="if(event.target === this) hidePayModal()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center;">
         <div style="background: #1a1c23; border: 1px solid #333; border-radius: 8px; width: 300px; padding: 20px; font-family: sans-serif; color: #ddd; box-shadow: 0 4px 12px rgba(0,0,0,0.5); text-align: center;">
-            <h3 style="margin-top: 0; color: #fff;">Nạp</h3>
+            <h3 style="margin-top: 0; color: #fff;">Tiếp tế</h3>
             <p style="margin-bottom: 20px; font-size: 14px; color: #bbb;">GreenJade ID payment provider - coming soon</p>
             <button onclick="hidePayModal()" style="background: #206bc4; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold;">Đóng</button>
         </div>
