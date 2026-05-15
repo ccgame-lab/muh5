@@ -6,4 +6,129 @@ require_login();
 
 $user = current_user();
 
-echo 'PLAY PAGE - Welcome, ' . e($user['display_name']);
+// Placeholders/Config for Launcher
+$uid = $user['username'];
+$sid = 1;
+$spverify = 'test_pass';
+$srvaddr = 'muh5-ws.ccgame.org/s1/';
+$srvport = '443';
+$loginre = '/login_bt.json';
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>MUH5 - Play</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="full-screen" content="true" />
+    <meta name="screen-orientation" content="portrait" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta name="360-fullscreen" content="true" />
+    <style>
+        html, body {
+            -ms-touch-action: none;
+            background: #000000;
+            padding: 0;
+            border: 0;
+            margin: 0;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div style="margin: auto;width: 100%;height: 100%;" class="egret-player" 
+        data-entry-class="Main"
+        data-orientation="portrait" 
+        data-scale-mode="fixedNarrow" 
+        data-frame-rate="30" 
+        data-content-width="720"
+        data-content-height="1280" 
+        data-show-paint-rect="false" 
+        data-multi-fingered="2" 
+        data-show-fps="false"
+        data-show-log="false" 
+        data-show-fps-style="x:0,y:0,size:12,textColor:0xffffff,bgAlpha:0.9">
+    </div>
+
+    <script>
+        // Global Game Vars
+        window["loginre"] = <?php echo json_encode($loginre); ?>;
+        window["uid"] = <?php echo json_encode($uid); ?>;
+        window["sid"] = <?php echo json_encode($sid); ?>;
+        window["spverify"] = <?php echo json_encode($spverify); ?>;
+        window["svrip"] = <?php echo json_encode($srvaddr); ?>;
+        window["port"] = <?php echo json_encode($srvport); ?>;
+        window["showurl"] = true;
+
+        // Legacy Fallback
+        window.openPayModal = function(url) {
+            console.log("Premium Store requested (Fallback): " + url);
+        };
+
+        var loadScript = function (list, callback) {
+            var loaded = 0;
+            var loadNext = function () {
+                loadSingleScript(list[loaded], function () {
+                    loaded++;
+                    if (loaded >= list.length) {
+                        callback();
+                    }
+                    else {
+                        loadNext();
+                    }
+                })
+            };
+            loadNext();
+        };
+
+        var loadSingleScript = function (src, callback) {
+            var s = document.createElement('script');
+            s.async = false;
+            
+            // Path mapping logic
+            var finalSrc = src;
+            if (src.indexOf("../resource/") === 0) {
+                finalSrc = src.replace("../resource/", "/resource/");
+            } else if (src.indexOf("http") !== 0 && src.indexOf("/") !== 0) {
+                finalSrc = "/" + src;
+            }
+            
+            s.src = finalSrc;
+            s.addEventListener('load', function () {
+                s.parentNode.removeChild(s);
+                s.removeEventListener('load', arguments.callee, false);
+                callback();
+            }, false);
+            document.body.appendChild(s);
+        };
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/manifest.json?v=' + Math.random(), true);
+        xhr.addEventListener("load", function () {
+            var manifest = JSON.parse(xhr.response);
+            var list = manifest.initial.concat(manifest.game);
+            loadScript(list, function () {
+                /**
+                 * {
+                 * "renderMode":, //Engine rendering mode, "canvas" or "webgl"
+                 * "audioType": 0 //Use the audio type, 0: default, 2: web audio, 3: audio
+                 * "calculateCanvasScaleFactor":function //Build-in method of collecting screen resolution
+                 * }
+                 **/
+                egret.runEgret({ renderMode: "webgl", audioType: 0, calculateCanvasScaleFactor:function(context) {
+                    var backingStore = context.backingStorePixelRatio ||
+                        context.webkitBackingStorePixelRatio ||
+                        context.mozBackingStorePixelRatio ||
+                        context.msBackingStorePixelRatio ||
+                        context.oBackingStorePixelRatio ||
+                        context.backingStorePixelRatio || 1;
+                    return (window.devicePixelRatio || 1) / backingStore;
+                }});
+            });
+        });
+        xhr.send(null);
+    </script>
+</body>
+</html>
