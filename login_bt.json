@@ -1,0 +1,11 @@
+{
+    "serverList": [
+        "S1|1|muh5-ws.ccgame.org/s1/:443"
+    ],
+    "resList": [
+        "主干|/resource/"
+    ],
+    "clientList": [
+        "主干|/"
+    ]
+}
